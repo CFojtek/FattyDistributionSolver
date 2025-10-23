@@ -1,0 +1,15 @@
+[project]
+name = "weight_distribution_solver"
+version = "0.1.0"
+description = "Package to calculate the weight distribution of a platform"
+authors = [
+    { name = "Christian Fojtek", email = "christian.fojtek@hotmail.com" },
+]
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = ["scipy (==1.16.2)", "shapely (==2.1.2)"]
+
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
