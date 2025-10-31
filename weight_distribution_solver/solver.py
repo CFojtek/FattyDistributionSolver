@@ -37,6 +37,17 @@ class Solver:
         )
         return applied_force
 
+    def check_force_balance(self) -> None:
+        supporting_force = sum([support.force for support in self.supports])
+        applied_force = self.calculate_total_applied_force()
+
+        if abs(supporting_force - applied_force) > 1e-6:
+            raise ValueError(
+                "Force balance not satisfied! Applied forces are not equal to supporting forces."
+            )
+
+        logging.info("Force balance between applied and supporting forces satisfied")
+
     def solve(self) -> list[PointSupport]:
         if self.uniform_loads:
             logging.info("Calculating uniform loads...")
@@ -81,12 +92,6 @@ class Solver:
             support.safety_factor = self.safety_factor
             support.design_force = support.force * self.safety_factor
 
-        supporting_force = sum([support.force for support in self.supports])
-        applied_force = self.calculate_total_applied_force()
-
-        if abs(supporting_force - applied_force) > 1e-6:
-            raise ValueError(
-                "Force balance not satisfied! Applied forces are not equal to supporting forces."
-            )
+        self.check_force_balance()
 
         return self.supports

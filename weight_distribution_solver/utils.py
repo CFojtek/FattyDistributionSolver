@@ -51,3 +51,19 @@ def calculate_tributary_areas(
         raise ValueError("Calculated tributary areas does not equal platform area")
 
     return tributary_areas
+
+
+def mirror_around_axis(
+    x: float, y: float, offset: float = 0, axis: str = "x"
+) -> tuple[float, float]:
+    """Mirror a point around an axis with an optional offset"""
+    if axis == "x":
+        mirrored_x = x
+        mirrored_y = -y + 2 * offset
+    elif axis == "y":
+        mirrored_x = -x + 2 * offset
+        mirrored_y = y
+    else:
+        raise ValueError("Axis must be 'x' or 'y'")
+
+    return mirrored_x, mirrored_y

@@ -1,7 +1,8 @@
 import logging
 
-from config import platform, point_loads, safety_factor, supports, uniform_loads
+from config_drum import platform, point_loads, safety_factor, supports, uniform_loads
 from weight_distribution_solver.solver import Solver
+from weight_distribution_solver.utils import mirror_around_axis
 
 logging.basicConfig()
 logging.getLogger().setLevel(logging.INFO)
@@ -28,8 +29,19 @@ def main():
     solved_supports = solver.solve()
     logging.info("Solver finished!\n")
 
+    applied_force = solver.calculate_total_applied_force()
+    logging.info(
+        f"Total applied force: {applied_force:.2f}N (={applied_force / 9.81:.2f}kg)\n"
+    )
+
     for i, support in enumerate(solved_supports, 1):
         logging.info(f"{'--' * 5} {i} {'--' * 5}{support.pretty_sring()}")
+
+    for i, support in enumerate(solved_supports, 1):
+        mirrored_x, mirrored_y = mirror_around_axis(
+            support.x, support.y, offset=platform.length / 2, axis="y"
+        )
+        logging.info(f"Mirrored support coordinates {i}: ({mirrored_x}, {mirrored_y})")
 
 
 if __name__ == "__main__":
