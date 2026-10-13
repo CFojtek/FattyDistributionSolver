@@ -1,6 +1,6 @@
 import logging
 
-from config_drum import platform, point_loads, safety_factor, supports, uniform_loads
+from config_example import platform, point_loads, safety_factor, supports, uniform_loads
 from weight_distribution_solver.solver import Solver
 from weight_distribution_solver.utils import mirror_around_axis
 
